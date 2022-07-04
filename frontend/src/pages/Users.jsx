@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getUsers } from "../services/Api";
 
 function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users`, {
-        withCredentials: true,
-      })
-      .then((res) => res.data)
+    getUsers()
       .then((data) => {
         setUsers(data);
       })

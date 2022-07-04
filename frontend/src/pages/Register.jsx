@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { register } from "../services/Api";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -9,12 +9,7 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (email && password) {
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
-          email,
-          password,
-        })
-        .then((res) => res.data)
+      register(email, password)
         .then((data) => {
           toast("Successfully registered");
         })

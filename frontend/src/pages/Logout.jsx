@@ -1,14 +1,12 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import { logout } from "../services/Api";
 
 function Logout() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users/logout`, {
-        withCredentials: true,
-      })
+    logout()
       .then(() => {
+        localStorage.setItem("user", null);
         toast("Successfully logged out");
       })
       .catch((err) => {

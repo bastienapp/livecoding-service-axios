@@ -1,27 +1,21 @@
-import { useState } from "react";
-import axios from "axios";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "../contexts/AuthContext";
+import { login } from "../services/Api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (email && password) {
-      axios
-        .post(
-          `${import.meta.env.VITE_BACKEND_URL}/users/login`,
-          {
-            email,
-            password,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => res.data)
+      login(email, password)
         .then((data) => {
+          const user = { email: data.email, role: data.role };
+          localStorage.setItem("user", JSON.stringify(user));
+          setUser(user);
           toast("Successfully logged in");
         })
         .catch((err) => {
